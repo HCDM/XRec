@@ -1,0 +1,1 @@
+CUDA_VISIBLE_DEVICES=0 python generate_graph.py --data_dir "/p/graph2x/Dataset/tripadvisor/tripadvisor_500_positive/" --graph_dir "/p/graph2x/Dataset/tripadvisor/tripadvisor_500_positive/geo_graph_batch_item_attr/" --data_name "tripadvisor"
