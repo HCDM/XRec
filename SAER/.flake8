@@ -1,0 +1,13 @@
+[flake8]
+# E302 expected 2 blank lines
+# E501 line too long
+# E111 indentation is not a multiple of four
+# E125 continuation line with same indent as next logical line
+# E121 Continuation line under-indented for hanging indent
+# E128 Continuation line under-indented for visual indent
+# E114 indentation is not a multiple of four (comment)
+# F403 'import *' used; unable to detect undefined names
+# E261 at least two spaces before inline comment
+# E262 inline comment should start with '# '
+exclude = .svn,CVS,.bzr,.hg,.git,__pycache__,.tox,config/**
+extend-ignore = E302,E501,E111,E125,E121,E128,E114,F403,E261,E262
