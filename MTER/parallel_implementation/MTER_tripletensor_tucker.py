@@ -11,11 +11,14 @@ def load_useritemfea(file, U_num, I_num):
 	sps_tensor_useritemf = {}
 	useritem_ls = []
 	overall_rating = np.zeros((U_num,I_num))
+	
 	with open(file, 'r') as fin:
 		lines = fin.readlines()
+		
 		for line in lines:
 			eachline = line.strip().split(',')
 			ft_sent_pair = eachline[3].strip()
+			
 			if ft_sent_pair != '':
 				u_idx = int(eachline[0])
 				i_idx = int(eachline[1])
@@ -37,6 +40,7 @@ def load_useritemfea(file, U_num, I_num):
 					#item_feature_mentioned[i_idx][f_idx] += 1
 				overall_rating[u_idx,i_idx] = over_rating
 				sps_tensor_useritemf[(u_idx,i_idx,F_num)] = over_rating
+	
 	return overall_rating, sps_tensor_useritemf, useritem_ls
 
 
@@ -44,6 +48,7 @@ def load_useritemfeaword(file, F_num, W_num):
 	sps_tensor_userwordf = {}
 	sps_tensor_itemwordf = {}
 	feature_word_used = np.zeros((F_num,W_num))
+	
 	with open(file, 'r') as fin:
 		lines = fin.readlines()
 
@@ -108,9 +113,11 @@ if __name__ == '__main__':
 	lr = 0.1
 
 	print('Training started! Estimated time is being printed during training ...')
-	(G1,G2,G3,U,I,F,W) = tsmtr.train(overall_rating_trn, sps_tensor_useritemf_trn, sps_tensor_userwordf_trn, sps_tensor_itemwordf_trn, useritem_ls_trn, \
-										 U_dim, I_dim, F_dim, W_dim, U_num, I_num, F_num+1, W_num, lmd_BPR, \
-										 num_iter, num_processes, lr=lr, cost_function='abs', random_seed=0, eps=1e-8)	
+	(G1,G2,G3,U,I,F,W) = tsmtr.train(overall_rating_trn, 
+					 sps_tensor_useritemf_trn, sps_tensor_userwordf_trn, sps_tensor_itemwordf_trn, 
+					 useritem_ls_trn, U_dim, I_dim, F_dim, W_dim, U_num, I_num, F_num+1, W_num, 
+					 lmd_BPR, num_iter, num_processes, lr=lr, 
+					 cost_function='abs', random_seed=0, eps=1e-8)	
 
 	params = {'G1': G1, 'G2': G2, 'G3': G3, 'U':U, 'I':I, 'F':F, 'W':W}
 	with open('../Results/' + outfile + '.paras','wb') as output:
