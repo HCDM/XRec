@@ -4,7 +4,7 @@ import math
 import random
 import numpy as np
 from sklearn.cluster import KMeans
-import tensor_sparse_multi_tasks_all_diff_paraserver as tsmtr
+import multi_tasks_paraserver as tsmtr
 import pickle
 
 
