@@ -1,5 +1,5 @@
 # XRec
-This repo includes the implementation of serveral explainable recommendation algorithms developed by our team, including [MTER](#references) [1], [FacT](#references) [2], [SAER](#references) [3], and [GREENer](#references) [4]. The detailed instructions on their usage can be found under their corresponding directory.
+This repo includes the implementation of serveral explainable recommendation algorithms developed by our team, including [MTER](./MTER) [1], [FacT](./TheFacT) [2], [SAER](./SAER) [3], and [GREENer](./GREENer) [4]. The detailed instructions on their usage can be found under their corresponding directories.
 
 
 ## References
