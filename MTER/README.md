@@ -1,5 +1,5 @@
 # MTER
-[Explainable Recommendation via Multi-Task Learning in Opinionated Text Data](https://arxiv.org/pdf/1806.03568.pdf)
+[Explainable Recommendation via Multi-Task Learning in Opinionated Text Data](https://arxiv.org/pdf/1806.03568.pdf), SIGIR'18
 
 This is a parallel implementation of MTER based on the idea of parameter server. The number of processes can be configured for training efficiency based on the computation capacity. 
 
