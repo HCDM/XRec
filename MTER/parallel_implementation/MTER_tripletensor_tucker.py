@@ -1,11 +1,15 @@
 # Tensor Multi-task 9/11/2017 NanWang
 
+import os
 import math
 import random
+import pickle
+import argparse
+
 import numpy as np
 from sklearn.cluster import KMeans
+
 import multi_tasks_paraserver as tsmtr
-import pickle
 
 
 def load_useritemfea(file, U_num, I_num):
@@ -73,6 +77,21 @@ def load_useritemfeaword(file, F_num, W_num):
 
 
 if __name__ == '__main__':    
+	
+	parser = argparse.ArgumentParser()
+	parser.add_argument('-u', '--useremb', default=15, type=int, help='user embedding dimension')
+	parser.add_argument('-i', '--itememb', default=15, type=int, help='item embedding dimension')
+	parser.add_argument('-f', '--featemb', default=12, type=int, help='feature embedding dimension')
+	parser.add_argument('-w', '--wordemb', default=12, type=int, help='opinion embedding dimension')
+	
+	parser.add_argument('--bpr', default=10, type=float, help='weight of BPR loss')
+	parser.add_argument('--iter', default=200000, type=int, help='number of training iterations')	
+	parser.add_argument('--lr', default=0.1, type=float, help='initial learning rate')
+	
+	parser.add_argument('--nprocess', default=4, type=int, help='number of processes for multiprocessing')
+
+	args = parser.parse_args()
+	
 	outfile = 'mter_paraserver'
 	U_num = 10719
 	I_num = 10410
@@ -82,9 +101,9 @@ if __name__ == '__main__':
 	print('Preparing Data...')
 	#load the interactions between user, item and feature
 	overall_rating_trn, sps_tensor_useritemf_trn, useritem_ls_trn = \
-			load_useritemfea('../yelp_restaurant_recursive_entry_sigir/yelp_recursive_train.entry', U_num, I_num)
+			load_useritemfea('yelp_recursive_entry/yelp_recursive_train.entry', U_num, I_num)
 	overall_rating_tst, sps_tensor_useritemf_tst, useritem_ls_tst = \
-			load_useritemfea('../yelp_restaurant_recursive_entry_sigir/yelp_recursive_test.entry', U_num, I_num)
+			load_useritemfea('yelp_recursive_entry/yelp_recursive_test.entry', U_num, I_num)
 
 	for key in sps_tensor_useritemf_trn.keys():
 		if key[2] != F_num:
@@ -93,25 +112,26 @@ if __name__ == '__main__':
 	print('Preparing Data...')
 	#load the interactions between user, item, feature and opinion word
 	sps_tensor_userwordf_trn, sps_tensor_itemwordf_trn, feature_word_used = \
-			load_useritemfeaword('../yelp_restaurant_recursive_entry_sigir/yelp_recursive_train.uifwords_entry',F_num,W_num)
+			load_useritemfeaword('yelp_recursive_entry/yelp_recursive_train.uifwords_entry',F_num,W_num)
 
 	for key in sps_tensor_userwordf_trn.keys():
 			sps_tensor_userwordf_trn[key] = 1 + 4 * ( 2 / (1 + np.exp(0 - sps_tensor_userwordf_trn[key]))-1)
 
 	for key in sps_tensor_itemwordf_trn.keys():
 			sps_tensor_itemwordf_trn[key] = 1 + 4 * ( 2 / (1 + np.exp(0 - sps_tensor_itemwordf_trn[key]))-1)
+	
+	os.makedirs('results/', exist_ok=True)
+	fout_result = open('results/' + outfile + '.result', 'w')
 
-	fout_result = open('../Results/' + outfile + '.result', 'w')
+	U_dim = args.useremb
+	I_dim = args.itememb
+	F_dim = args.featemb
+	W_dim = args.wordemb
+	lmd_BPR = args.bpr
+	num_iter = args.iter
 
-	U_dim = 15
-	I_dim = 15
-	F_dim = 12
-	W_dim = 12
-	lmd_BPR = 10
-	num_iter = 200000
-
-	num_processes = 4
-	lr = 0.1
+	num_processes = args.nprocess
+	lr = args.lr
 
 	print('Training started! Estimated time is being printed during training ...')
 	(G1,G2,G3,U,I,F,W) = tsmtr.train(overall_rating_trn, 
@@ -121,7 +141,7 @@ if __name__ == '__main__':
 					 cost_function='abs', random_seed=0, eps=1e-8)	
 
 	params = {'G1': G1, 'G2': G2, 'G3': G3, 'U':U, 'I':I, 'F':F, 'W':W}
-	with open('../Results/' + outfile + '.paras','wb') as output:
+	with open('results/' + outfile + '.paras', 'wb') as output:
 		pickle.dump(params, output) 
 
 	fout_result.close()
