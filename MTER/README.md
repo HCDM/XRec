@@ -6,7 +6,7 @@ A parallel implementation of MTER based on the idea of parameter server. Number 
 
 [Download](https://drive.google.com/drive/folders/1BYyyJW8BBl13KP4W9pxVCvw13CHVOrsV?usp=sharing "yelp data") the processed Yelp review dataset in a folder called `yelp_recursive_entry/`. 
 
-The provided training and testing set are split from yelp_recursive.entry for testing the model. 
+The provided training and testing set are split from yelp_recursive.entry for testing the model. Split yelp_recursive.entry for different train/val/test settings. 
 
 Train model: `python MTER_tripletensor_tucker.py --options XXX` 
 
