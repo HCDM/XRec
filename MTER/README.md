@@ -4,7 +4,7 @@ A parallel implementation of MTER with derived gradients based on the idea of pa
 
 ## Usage
 
-[Download](https://drive.google.com/drive/folders/1BYyyJW8BBl13KP4W9pxVCvw13CHVOrsV?usp=sharing "yelp data") the processed Yelp review dataset. 
+[Download](https://drive.google.com/drive/folders/1BYyyJW8BBl13KP4W9pxVCvw13CHVOrsV?usp=sharing "yelp data") the processed Yelp review dataset in a folder called `yelp_recursive_entry/`. 
 
 The provided training and testing set are split from yelp_recursive.entry for testing the model. 
 
