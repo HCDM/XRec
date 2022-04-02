@@ -21,7 +21,7 @@ Train model: `python MTER_tripletensor_tucker.py --options XXX`
 | --lr | 0.1       | initial learning rate for adagrad |
 | --nprocess | 4       | number of processes for multiprocessing |
 
-The learned models are stored in the folder 'results'. 
+The learned model parameters are stored in the folder 'results'. 
 
 Please refer to our paper ['Explainable Recommendation via Multi-Task Learning in Opinionated Text Data'](https://dl.acm.org/citation.cfm?id=3210010) for more details.
 
