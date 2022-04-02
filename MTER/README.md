@@ -31,8 +31,6 @@ Train model: `python MTER_tripletensor_tucker.py --options XXX`
 
 The learned model parameters are stored in the folder 'results'. 
 
-Please refer to our paper ['Explainable Recommendation via Multi-Task Learning in Opinionated Text Data'](https://dl.acm.org/citation.cfm?id=3210010) for more details.
-
 ## Citation
 If you find this useful for your reserach, please consider cite:
 ```
