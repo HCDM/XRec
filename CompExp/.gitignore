@@ -1,0 +1,21 @@
+**/__pycache__
+*checkpoints
+data/yelp
+data/amazon*
+data/ratebeer
+data/word_embedding
+data/*_output/**
+!data/*_output/users.txt
+!data/*_output/items.txt
+!data/*_output/attributes.json
+
+.env
+
+# log files
+*logs
+*.log
+*.out
+
+*.pkl
+.vscode
+
