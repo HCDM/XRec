@@ -31,7 +31,7 @@ class CompExp(nn.Module):
         rnn_type,
         dropout,
         norm_vct=False,
-        keppa=1,
+        keppa=1,  # extraction temperature
 
         ext_policy='max'
     ):
