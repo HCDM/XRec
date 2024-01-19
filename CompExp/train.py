@@ -2,7 +2,7 @@ import argparse
 
 import config
 from main import init, load_dataset, load_rewrite_dataset
-from src.trainer import CompExpTrainer, CompExpPolicyGradientTrainer
+from src.trainer import CompExpTrainer, CompExpPolicyGradientTrainer, ExtractorTrainer
 
 
 KARGS_LOG_KEYS = {'batch_size', 'lr', 'l2', 'clip', 'rank_loss_type',
@@ -38,7 +38,7 @@ def main():
 
     kargs = config_to_kargs(model_config)
 
-    if model_config.TRAINING_TASK == 'comp_exp':
+    if model_config.TRAINING_TASK == 'pretrain':
         Trainer = CompExpTrainer
 
         kargs['rewrite_dataset'] = load_rewrite_dataset()
@@ -51,7 +51,7 @@ def main():
 
         kargs['loss_lambda'] = model_config.LOSS_LAMBDA
 
-    elif model_config.TRAINING_TASK == 'pg':
+    elif model_config.TRAINING_TASK == 'e2e':
         Trainer = CompExpPolicyGradientTrainer
 
         if model_config.REWRITE:
@@ -64,6 +64,13 @@ def main():
         kargs['n_ref_exps'] = model_config.N_REF_EXPS
 
         kargs['loss_lambda'] = model_config.LOSS_LAMBDA
+
+    elif model_config.TRAINING_TASK == 'extract':
+        Trainer = ExtractorTrainer
+        kargs['n_item_exps'] = model_config.N_ITEM_EXPS
+        kargs['n_ref_exps'] = model_config.N_REF_EXPS
+        kargs['n_pos_exps'] = model_config.N_POS_EXPS
+        kargs['n_user_exps'] = model_config.N_USER_EXPS
 
     print(f'Training method: {model_config.TRAINING_TASK}')
     print(f'Training config:', {k: v for k,

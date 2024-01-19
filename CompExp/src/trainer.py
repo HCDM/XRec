@@ -288,6 +288,32 @@ class AbstractTrainer:
                 self.log('Delete checkpoint:', cp_name)
 
 
+class ExtractorTrainer(AbstractTrainer):
+    ''' Trainer to train ranking model '''
+
+    def __init__(self, *args, n_item_exps=None, n_ref_exps=None, n_pos_exps=None, n_user_exps=None, **kargs):
+        super().__init__(*args, **kargs)
+
+        # self.collate_fn = BleuExtBuilder(
+        self.collate_fn = ExtBuilder(
+            n_item_exps=n_item_exps, n_ref_exps=n_ref_exps, n_pos_exps=n_pos_exps, n_user_exps=n_user_exps)
+
+    def run_batch(self, batch_data, val=False):
+        '''
+        Outputs:
+          loss: tensor, overall loss to optimize
+        '''
+
+        labels = batch_data.item_exp_label
+        result = self.model.extractor(batch_data)  # (batch, n_item_exps)
+        probs = result.probs
+
+        pos_probs = probs[labels]
+        loss = - (pos_probs + 1e-10).log().mean()
+
+        return loss
+
+
 class CompExpTrainer(AbstractTrainer):
     ''' Trainer to train rewrite generator '''
 
