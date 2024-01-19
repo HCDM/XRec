@@ -15,7 +15,7 @@ REF_ATTN = False
 
 # [Training]
 
-TRAINING_TASK = 'finetune'
+TRAINING_TASK = 'e2e'
 BATCH_SIZE = 128
 
 LR = 1e-5
